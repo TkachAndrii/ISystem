@@ -1,0 +1,4 @@
+Flask
+prometheus-client
+pymongo
+requests
