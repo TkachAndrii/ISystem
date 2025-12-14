@@ -1,20 +1,22 @@
 version: "3.8"
 
 services:
-
   mongo:
     image: mongo:7
     container_name: mongo
     restart: always
     ports:
       - "27017:27017"
-    command: ["--bind_ip_all"]  
+    command: ["--bind_ip_all"]
     networks:
       - infosys-net
     volumes:
-      - ../data/mongo_db:/data/db
+      # FIX 1: Using a named volume instead of a Windows path
+      # This prevents the "WiredTiger" / "Connection Refused" errors on Windows
+      - mongo_internal_data:/data/db
     healthcheck:
-      test: ["CMD-SHELL", "mongosh --quiet --eval \"db.adminCommand({ ping: 1 })\" >/dev/null 2>&1 || exit 1"]
+      # FIX 3: Healthcheck updated for no-auth (just pings the DB)
+      test: ["CMD-SHELL", "mongosh --quiet --eval \"db.adminCommand({ ping: 1 })\" || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,14 +27,14 @@ services:
     restart: always
     ports:
       - "9216:9216"
-    depends_on:
-      mongo:
-        condition: service_healthy
     networks:
       - infosys-net
+    depends_on:
+      mongo:
+        condition: service_healthy # FIX 2: Waits for Mongo to be ready
     command:
       - "--mongodb.uri=mongodb://mongo:27017"
-      - "--collect-all" 
+      - "--collect-all"
 
   auth-service:
     build:
@@ -62,8 +64,8 @@ services:
       - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./configs/grafana/dashboards:/var/lib/grafana/dashboards  # mount dashboards
-      - ./configs/grafana/provisioning:/etc/grafana/provisioning  # mount provisioning
+      - ./configs/grafana/dashboards:/var/lib/grafana/dashboards
+      - ./configs/grafana/provisioning:/etc/grafana/provisioning
     depends_on:
       - prometheus
     networks:
@@ -80,14 +82,16 @@ services:
     networks:
       - infosys-net
     depends_on:
-      - auth-service
-      - mongo
+      auth-service:
+        condition: service_started
+      mongo:
+        condition: service_healthy # FIX 2: Waits for Mongo to be ready
     environment:
-      - MONGO_URI=mongodb://mongo:27017/crm_db 
+      - MONGO_URI=mongodb://mongo:27017/crm_db
 
   db_stresser:
     build:
-      context: ../src/db_stresser  # path to folder containing Dockerfile & stresser.py
+      context: ../src/db_stresser
     container_name: db_stresser
     depends_on:
       - auth-service
@@ -101,8 +105,11 @@ services:
       - TARGET_OPS_PER_SEC=10
     restart: always
 
+# VOLUMES DEFINITION
 volumes:
   grafana_data:
+  # This creates the hidden storage volume for MongoDB inside Docker
+  mongo_internal_data:
 
 networks:
   infosys-net:
