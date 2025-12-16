@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ef4b99ggapo1sf"
+        "uid": "af72zboqyc268a"
       },
       "fieldConfig": {
         "defaults": {
@@ -102,7 +102,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.2.1",
+      "pluginVersion": "12.3.0",
       "targets": [
         {
           "editorMode": "builder",
@@ -118,7 +118,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ef4b99ggapo1sf"
+        "uid": "af72zboqyc268a"
       },
       "fieldConfig": {
         "defaults": {
@@ -196,7 +196,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.2.1",
+      "pluginVersion": "12.3.0",
       "targets": [
         {
           "datasource": {
@@ -216,7 +216,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "ef4b99ggapo1sf"
+        "uid": "af72zboqyc268a"
       },
       "fieldConfig": {
         "defaults": {
@@ -294,7 +294,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.2.1",
+      "pluginVersion": "12.3.0",
       "targets": [
         {
           "editorMode": "builder",
@@ -322,5 +322,5 @@
   "timezone": "browser",
   "title": "MongoDB",
   "uid": "adcxs5l",
-  "version": 7
+  "version": 2
 }
