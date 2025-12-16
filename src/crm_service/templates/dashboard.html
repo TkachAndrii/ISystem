@@ -6,7 +6,7 @@
     <title>CRM Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    
+
     <style>
         :root {
             --bg-color: #0f172a;
@@ -93,12 +93,12 @@
         }
 
         .text-muted {
-            color: #ffffff !important;  
-            opacity: 1 !important;     
+            color: #ffffff !important;
+            opacity: 1 !important;
         }
 
         h5, .card-title {
-            color: #ffffff !important;  
+            color: #ffffff !important;
         }
 
         .bi {
@@ -139,21 +139,21 @@
 
 <div class="container">
     <div class="row g-4">
-        
+
         <div class="col-lg-4">
             <div class="card p-4 shadow-sm h-100">
                 <h5 class="card-title mb-4"><i class="bi bi-plus-circle me-2"></i>New Order</h5>
-                
+
                 <div class="mb-3">
                     <label class="form-label text-muted small">Item Name</label>
                     <input type="text" id="newItem" class="form-control" placeholder="e.g. MacBook Pro">
                 </div>
-                
+
                 <div class="mb-4">
                     <label class="form-label text-muted small">Price ($)</label>
                     <input type="number" id="newPrice" class="form-control" placeholder="0.00">
                 </div>
-                
+
                 <button class="btn btn-primary w-100 py-2" onclick="addOrder()">
                     Add Order
                 </button>
@@ -215,12 +215,12 @@
       </div>
       <div class="modal-body">
         <input type="hidden" id="editId">
-        
+
         <div class="mb-3">
             <label class="form-label text-muted">Item Name</label>
             <input type="text" id="editItem" class="form-control">
         </div>
-        
+
         <div class="mb-3">
             <label class="form-label text-muted">Price ($)</label>
             <input type="number" id="editPrice" class="form-control">
@@ -259,7 +259,7 @@
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({item, price})
     });
-    
+
     if(res.ok) location.reload();
   }
 
